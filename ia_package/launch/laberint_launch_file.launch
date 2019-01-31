@@ -1,0 +1,5 @@
+<launch>
+    <!-- My Package launch file -->
+    <node pkg="ia_package" type="laberint.py" name="IA"  output="screen">
+    </node>
+</launch>
