@@ -4,33 +4,25 @@ import datetime
 #
 # A* Algorithm
 #
-def A_estrella(root, x_sol, y_sol):
-    
+def A_estrella(root, x_sol, y_sol):    
     llista = [root]
     f = 0
-
-    while llista:
-        
+    while llista:        
         cur_node = llista[0]
         cur_node.h = cur_node.get_h(x_sol, y_sol)
-        f = cur_node.g + cur_node.h
-        
+        f = cur_node.g + cur_node.h        
         if cur_node.x == x_sol and cur_node.y == y_sol:
             print("Solucio: ")
             print(cur_node.path)
             return cur_node.path
-            break
-            
+            break            
         pare = llista.pop(0)
         for child in pare.get_children():
             child.g = f
-            llista.insert(0, child)
-        
-        llista.sort(key = lambda x : x.g, reverse=False)
-        
+            llista.insert(0, child)        
+        llista.sort(key = lambda x : x.g, reverse=False)        
         if cur_node.x != x_sol and cur_node.y != y_sol:
-            llista[0].path.append(llista[0])
-  
+            llista[0].path.append(llista[0]) 
       
 #
 # A* Algorithm
@@ -39,11 +31,9 @@ def Moviments(path):
     pos_actual = path[0]
     direccio = 1
     accions = [] 
-    i = 0
-    
+    i = 0    
     while pos_actual.id != "goal1":
-        i = i + 1
-        
+        i = i + 1        
         if pos_actual.x < path[i].x:
             if direccio == 1:
                 accions.append("forward")
@@ -56,8 +46,7 @@ def Moviments(path):
                 direccio = 1
             elif direccio == 4:
                 accions.append("right-forward")
-                direccio = 1
-                
+                direccio = 1                
         if pos_actual.x > path[i].x:
             if direccio == 1:
                 accions.append("180-forward")
@@ -70,8 +59,7 @@ def Moviments(path):
                 direccio = 3
             elif direccio == 4:
                 accions.append("left-forward")
-                direccio = 3
-                
+                direccio = 3                
         if pos_actual.y < path[i].y:
             if direccio == 1:
                 accions.append("left-forward")
@@ -84,8 +72,7 @@ def Moviments(path):
                 direccio = 4
             elif direccio == 4:
                 accions.append("forward")
-                direccio = 4
-                
+                direccio = 4                
         if pos_actual.y > path[i].y:
             if direccio == 1:
                 accions.append("right-forward")
@@ -99,11 +86,8 @@ def Moviments(path):
             elif direccio == 4:
                 accions.append("180-forward")
                 direccio = 2
-
-        pos_actual = path[i]
-        
+        pos_actual = path[i]        
     return accions
-
 #
 # The tree
 #
@@ -116,47 +100,35 @@ class TreeNode(object):
         self.x = x
         self.y = y
         self.dad = dad
-        self.path = []
-    
+        self.path = []    
     def __repr__(self):
-        return "[%s]" % self.id
-    
+        return "[%s]" % self.id    
     def add_child(self, node):
         node.add_dad(self)
         self.children.append(node)
-
     def add_path(self):
         self.path = self.dad.path[:]
-        self.path.append(self)
-    
+        self.path.append(self)    
     def add_dad(self, node):
         self.dad = node
-
     def get_dad(self):
-        return self.dad
-    
+        return self.dad    
     def get_children(self):
-        return self.children
-    
+        return self.children    
     def get_rev_children(self):
         children = self.children[:]
         children.reverse()
-        return children
-    
+        return children    
     def get_h(self, x_sol, y_sol):
-        return abs(self.x - x_sol) + abs(self.y - y_sol)
-        
+        return abs(self.x - x_sol) + abs(self.y - y_sol)        
     def get_x(self):
-        return self.x
-        
+        return self.x        
     def get_y(self):
-        return self.y
-    
+        return self.y    
 #
 # Test tree
 #
-def get_example_tree():
-    
+def get_example_tree():    
     #create nodes
     root = TreeNode("a4",1,3)
     
@@ -339,16 +311,11 @@ def get_example_tree():
     goal2.add_path()
     
     return root
-
-
-
 #
 # The main
 #
-if __name__ == "__main__":
-    
-    root = get_example_tree()
-    
+if __name__ == "__main__":    
+    root = get_example_tree()    
     print("\n------ A* ------\n")
     start = datetime.datetime.now()
     path = A_estrella(root, 7, 3)
